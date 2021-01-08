@@ -8,7 +8,7 @@ class User(models.Model):
     surname = models.CharField(max_length=50)
     email = models.CharField(max_length=50)
     password = models.CharField(max_length=50)
-    friends = models.ManyToManyField("self", verbose_name="list of friends", symmetrical=False)
+    friends = models.ManyToManyField("self", verbose_name="list of friends", symmetrical=False, blank=True)
 
     def __str__(self):
         return self.name
@@ -20,7 +20,8 @@ class Route(models.Model):
     combustion = models.FloatField()
     fuel_price = models.FloatField()
     route_length = models.FloatField()
-    route_participants = models.ManyToManyField(User, through='RouteMember', through_fields=('route', 'participant'))
+    route_participants = models.ManyToManyField(User, through='RouteMember', through_fields=('route', 'participant'),
+                                                blank=True)
 
 
 # DataFlair
@@ -34,9 +35,9 @@ class RouteMember(models.Model):
 class Point(models.Model):
     address = models.CharField(max_length=100)
     getting_on_friends = models.ManyToManyField(User, verbose_name="list of friends getting on this point",
-                                                related_name='+')
+                                                related_name='+', blank=True)
     getting_off_friends = models.ManyToManyField(User, verbose_name="list of friends getting off this point",
-                                                 related_name='+')
+                                                 related_name='+', blank=True)
 
     def __str__(self):
         return self.address
