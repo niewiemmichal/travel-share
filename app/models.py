@@ -1,8 +1,6 @@
-# basic_api/models.py
 from django.db import models
 
 
-# DataFlair
 class User(models.Model):
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
