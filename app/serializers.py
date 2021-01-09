@@ -1,11 +1,12 @@
 from rest_framework import serializers
-from .models import User, Route, RouteMember, Point
+from .models import User, Route, RouteMember, Landmark
 
 
 # For now it only have non relationship fields
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
+        # fields = "__all__"
         fields = ('name', 'surname', 'email', 'password')
 
 
@@ -23,5 +24,5 @@ class RouteMemberSerializer(serializers.ModelSerializer):
 
 class PointSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Point
+        model = Landmark
         fields = 'address'
