@@ -4,7 +4,7 @@ from django.db import models
 class User(models.Model):
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
-    email = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
     password = models.CharField(max_length=50)
     friends = models.ManyToManyField("self", verbose_name="list of friends", blank=True)
 

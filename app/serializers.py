@@ -6,8 +6,23 @@ from .models import User, Route, RouteMember, Landmark
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        # fields = "__all__"
-        fields = ('name', 'surname', 'email', 'password')
+        fields = ('id', 'name', 'surname', 'email', 'password')
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    friends = UserSerializer(many=True, required=False, read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'name', 'surname', 'email', 'password', 'friends')
+
+
+class UserFriendsSerializer(serializers.ModelSerializer):
+    friends = UserSerializer(many=True, required=False, read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'friends')
 
 
 class RouteSerializer(serializers.ModelSerializer):
