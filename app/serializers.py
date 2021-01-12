@@ -17,12 +17,10 @@ class UserDetailSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'surname', 'email', 'password', 'friends')
 
 
-class UserFriendsSerializer(serializers.ModelSerializer):
-    friends = UserSerializer(many=True, required=False, read_only=True)
-
+class PasswordSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'friends')
+        fields = ('id', 'email', 'password')
 
 
 class RouteSerializer(serializers.ModelSerializer):

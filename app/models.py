@@ -12,21 +12,6 @@ class User(models.Model):
         return self.name
 
 
-class Route(models.Model):
-    date = models.DateField()
-    fuel_consumption = models.FloatField()
-    fuel_price = models.FloatField()
-    route_length = models.FloatField()
-    route_participants = models.ManyToManyField(User, through='RouteMember', through_fields=('route', 'participant'),
-                                                blank=True)
-
-
-class RouteMember(models.Model):
-    route = models.ForeignKey(Route, on_delete=models.CASCADE)
-    participant = models.ForeignKey(User, on_delete=models.CASCADE)
-    route_price = models.FloatField()
-
-
 class Landmark(models.Model):
     address = models.CharField(max_length=100)
     getting_on_friends = models.ManyToManyField(User, verbose_name="list of friends getting on this point",
@@ -36,3 +21,19 @@ class Landmark(models.Model):
 
     def __str__(self):
         return self.address
+
+
+class Route(models.Model):
+    date = models.DateField()
+    fuel_consumption = models.FloatField()
+    fuel_price = models.FloatField()
+    route_length = models.FloatField()
+    landmarks = models.ManyToManyField(Landmark, verbose_name="list of landmarks", blank=True)
+    route_participants = models.ManyToManyField(User, through='RouteMember', through_fields=('route', 'participant'),
+                                                blank=True)
+
+
+class RouteMember(models.Model):
+    route = models.ForeignKey(Route, on_delete=models.CASCADE)
+    participant = models.ForeignKey(User, on_delete=models.CASCADE)
+    route_price = models.FloatField()

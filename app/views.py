@@ -1,9 +1,8 @@
 from rest_framework import viewsets
-from django.http import HttpResponse, JsonResponse
-from rest_framework.decorators import api_view, action
+from django.http import HttpResponse
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from django.shortcuts import get_object_or_404
 from . import models
 from . import serializers
 
@@ -20,6 +19,11 @@ class UsersViewSet(viewsets.ModelViewSet):
         if self.action == 'retrieve':
             return serializers.UserDetailSerializer
         return serializers.UserSerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        user = models.User.objects.get(pk=kwargs['pk'])
+        serializer = serializers.UserDetailSerializer(user)
+        return Response(serializer.data)
 
 
 class UserDetailViewset(viewsets.ModelViewSet):
@@ -71,3 +75,14 @@ def friend_delete(request, pk_user, pk_friend):
         user_to_delete = models.User.objects.get(pk=pk_friend)
         user.friends.remove(user_to_delete)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def user_by_email(request, email_user):
+    try:
+        user = models.User.objects.get(email=email_user)
+    except models.User.DoesNotExist:
+        return HttpResponse(status=404)
+
+    serializer = serializers.UserSerializer(user)
+    return Response(serializer.data)
