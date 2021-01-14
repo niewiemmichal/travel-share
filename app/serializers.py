@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Route, RouteMember, Landmark
+from .models import User, Route, RouteParticipant, Landmark
 
 
 # For now it only have non relationship fields
@@ -16,10 +16,12 @@ class RouteSerializer(serializers.ModelSerializer):
         fields = ('date', 'combustion', 'fuel_price', 'route_length')
 
 
-class RouteMemberSerializer(serializers.ModelSerializer):
+class RouteParticipantSerializer(serializers.ModelSerializer):
+    participant = UserSerializer(many=False)
+
     class Meta:
-        model = RouteMember
-        fields = 'route_price'
+        model = RouteParticipant
+        fields = ('participant', 'price')
 
 
 class PointSerializer(serializers.ModelSerializer):

@@ -1,10 +1,14 @@
 from rest_framework import viewsets
-from . import models
-from . import serializers
+from .models import User, RouteParticipant
+from .serializers import UserSerializer, RouteParticipantSerializer
 
 
 # list(), retrieve(), create(), update(), destroy()
 class UsersViewset(viewsets.ModelViewSet):
-    queryset = models.User.objects.all()
-    serializer_class = serializers.UserSerializer
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
+
+class RouteParticipantViewset(viewsets.ModelViewSet):
+    queryset = RouteParticipant.objects.all()
+    serializer_class = RouteParticipantSerializer
