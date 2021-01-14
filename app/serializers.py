@@ -24,12 +24,6 @@ class LandmarkSerializer(serializers.ModelSerializer):
         fields = ('address',)
 
 
-class RouteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Route
-        fields = '__all__'
-
-
 class RouteWriterSerializer(serializers.ModelSerializer):
     landmarks = LandmarkSerializer(many=True)
     participants = RouteParticipantSerializer(many=True)
