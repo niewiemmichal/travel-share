@@ -1,12 +1,11 @@
 from rest_framework import serializers
-from .models import User, Route, RouteMember, Landmark
+from .models import User, Route, RouteParticipant, Landmark
 
 
-# For now it only have non relationship fields
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'name', 'surname', 'email', 'password')
+        fields = ('id', 'name', 'surname', 'email')
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -14,7 +13,13 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'name', 'surname', 'email', 'password', 'friends')
+        fields = ('id', 'name', 'surname', 'email', 'friends')
+
+
+class UserWriterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('name', 'surname', 'email', 'password')
 
 
 class PasswordSerializer(serializers.ModelSerializer):
@@ -29,10 +34,19 @@ class RouteSerializer(serializers.ModelSerializer):
         fields = ('date', 'combustion', 'fuel_price', 'route_length')
 
 
-class RouteMemberSerializer(serializers.ModelSerializer):
+class RouteDetailSerializer(serializers.ModelSerializer):
     class Meta:
-        model = RouteMember
-        fields = 'route_price'
+        model = Route
+        fields = ('date', 'combustion', 'fuel_price', 'route_length')
+
+
+class RouteMemberSerializer(serializers.ModelSerializer):
+    participant = UserSerializer(many=True, required=False, read_only=True)
+    route = RouteSerializer(many=True, required=False, read_only=True)
+
+    class Meta:
+        model = RouteParticipant
+        fields = ('route_price', 'participant', 'route')
 
 
 class PointSerializer(serializers.ModelSerializer):
