@@ -21,6 +21,17 @@ class UserWriterSerializer(serializers.ModelSerializer):
         model = User
         fields = ('name', 'surname', 'email', 'password')
 
+    def create(self, validated_data):
+        return User.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.surname = validated_data.get('surname', instance.surname)
+        instance.email = validated_data.get('email', instance.email)
+        instance.password = validated_data.get('password', instance.password)
+        instance.save()
+        return instance
+
 
 class PasswordSerializer(serializers.ModelSerializer):
     class Meta:
