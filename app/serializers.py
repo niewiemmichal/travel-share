@@ -39,7 +39,11 @@ class RouteWriterSerializer(serializers.ModelSerializer):
         for landmark_data in landmarks_data:
             Landmark.objects.create(route=route, **landmark_data)
         for participant_data in participants_data:
-            user = User.objects.get(email=participant_data.get('participant').get('email'))
+            try:
+                user = User.objects.get(email=participant_data.get('participant').get('email'))
+            except Exception as e:
+                error = {'message': ",".join(e.args) if len(e.args) > 0 else 'Unknown Error'}
+                raise serializers.ValidationError(error)
             RouteParticipant.objects.create(
                 route=route,
                 participant=user,

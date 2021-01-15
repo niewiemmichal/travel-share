@@ -21,7 +21,11 @@ class RoutesViewset(viewsets.ModelViewSet):
     serializer_class = RouteReaderSerializer
 
     def retrieve(self, request, *args, **kwargs):
-        user = User.objects.get(pk=kwargs['pk'])
+        try:
+            user = User.objects.get(pk=kwargs['pk'])
+        except Exception as e:
+            error = {'message': ",".join(e.args) if len(e.args) > 0 else 'Unknown Error'}
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)
         routes = Route.objects.filter(participants=user)
         serializer = RouteReaderSerializer(routes, many=True)
         return Response(serializer.data)
