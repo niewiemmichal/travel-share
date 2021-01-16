@@ -1,7 +1,5 @@
 from rest_framework import routers
-from .views import UsersViewset, RoutesViewset, RouteParticipantViewset
+from .views import RoutesViewSet
 
 router = routers.DefaultRouter()
-router.register('users', UsersViewset),
-router.register('routes', RoutesViewset),
-router.register('route_participants', RouteParticipantViewset),
+router.register('routes', RoutesViewSet)

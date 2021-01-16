@@ -1,22 +1,11 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
-from .models import User, RouteParticipant, Route
-from .serializers import UserSerializer, RouteParticipantSerializer, RouteReaderSerializer, RouteWriterSerializer
+from .models import User, Route
+from .serializers import RouteReaderSerializer, RouteWriterSerializer
 
 
-# list(), retrieve(), create(), update(), destroy()
-class UsersViewset(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class RouteParticipantViewset(viewsets.ModelViewSet):
-    queryset = RouteParticipant.objects.all()
-    serializer_class = RouteParticipantSerializer
-
-
-class RoutesViewset(viewsets.ModelViewSet):
+class RoutesViewSet(viewsets.ViewSet):
     queryset = Route.objects.all()
     serializer_class = RouteReaderSerializer
 
