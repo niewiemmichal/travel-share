@@ -13,6 +13,7 @@ class User(models.Model):
 
 
 class Route(models.Model):
+    name = models.CharField(max_length=50)
     date = models.DateField()
     length = models.FloatField()
     fuel_price = models.FloatField()

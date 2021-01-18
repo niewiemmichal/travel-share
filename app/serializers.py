@@ -2,18 +2,55 @@ from rest_framework import serializers
 from .models import User, Route, RouteParticipant, Landmark
 
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'name', 'surname', 'email')
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    friends = UserSerializer(many=True, required=False, read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'name', 'surname', 'email', 'friends')
+
+
+class UserWriterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'name', 'surname', 'email', 'password')
+
+    def create(self, validated_data):
+        return User.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.surname = validated_data.get('surname', instance.surname)
+        instance.email = validated_data.get('email', instance.email)
+        instance.password = validated_data.get('password', instance.password)
+        instance.save()
+        return instance
+
+      
+class PasswordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'password')
+
+        
 class ParticipantReaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('name', 'surname', 'email')
 
-
+        
 class ParticipantWriterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email',)
 
-
+        
 class RouteParticipantWriterSerializer(serializers.ModelSerializer):
     participant = ParticipantWriterSerializer(many=False)
 
@@ -24,11 +61,11 @@ class RouteParticipantWriterSerializer(serializers.ModelSerializer):
 
 class RouteParticipantReaderSerializer(serializers.ModelSerializer):
     participant = ParticipantReaderSerializer(many=False, read_only=True)
-
+    
     class Meta:
         model = RouteParticipant
         fields = ('participant', 'price')
-
+        
 
 class LandmarkSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,7 +79,7 @@ class RouteWriterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('date', 'length', 'fuel_price', 'fuel_consumption', 'landmarks', 'participants')
+        fields = ('name', 'date', 'length', 'fuel_price', 'fuel_consumption', 'landmarks', 'participants')
 
     def create(self, validated_data):
         participants_data = validated_data.pop('participants')
@@ -71,7 +108,7 @@ class RouteReaderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('date', 'length', 'fuel_price', 'fuel_consumption', 'landmarks', 'participants')
+        fields = ('name', 'date', 'length', 'fuel_price', 'fuel_consumption', 'landmarks', 'participants')
 
     def get_participants(self, route_instance):
         query_data = RouteParticipant.objects.filter(route=route_instance)

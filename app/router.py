@@ -1,5 +1,7 @@
-from rest_framework import routers
-from .views import RoutesViewSet
+from rest_framework.routers import DefaultRouter
+from .views import UsersViewSet, FriendsViewSet, RoutesViewSet
 
-router = routers.DefaultRouter()
+router = DefaultRouter()
+router.register(r'users', UsersViewSet, basename='users')
+router.register(r'friends', FriendsViewSet, basename='friends')
 router.register('routes', RoutesViewSet)
