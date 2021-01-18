@@ -26,6 +26,8 @@ class UsersViewSet(viewsets.ModelViewSet):
             serializer = UserWriterSerializer(data=request.data)
             if serializer.is_valid():
                 serializer.save()
+                user = User.objects.get(email=request.data["email"])
+                serializer = UserSerializer(user, many=False)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return Response('User already exist', status=status.HTTP_400_BAD_REQUEST)
