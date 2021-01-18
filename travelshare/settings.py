@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'travelshare.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'travelshare-development',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': '127.0.0.1',
+        'NAME': 'vhpdjaqe',
+        'USER': 'vhpdjaqe',
+        'PASSWORD': 'SzIUKlQ-E2OOcGBdXzpQLvqhoAPThN-t',
+        'HOST': 'hattie.db.elephantsql.com',
         'PORT': '5432',
     }
 }

@@ -79,7 +79,7 @@ class RouteWriterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('date', 'length', 'fuel_price', 'fuel_consumption', 'landmarks', 'participants')
+        fields = ('name', 'date', 'length', 'fuel_price', 'fuel_consumption', 'landmarks', 'participants')
 
     def create(self, validated_data):
         participants_data = validated_data.pop('participants')
@@ -108,7 +108,7 @@ class RouteReaderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('date', 'length', 'fuel_price', 'fuel_consumption', 'landmarks', 'participants')
+        fields = ('name', 'date', 'length', 'fuel_price', 'fuel_consumption', 'landmarks', 'participants')
 
     def get_participants(self, route_instance):
         query_data = RouteParticipant.objects.filter(route=route_instance)
