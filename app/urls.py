@@ -4,5 +4,4 @@ from . import views
 
 urlpatterns = [
     path('', include(router.urls)),
-    #(?P<pk>[0-9]+)/$
 ]
