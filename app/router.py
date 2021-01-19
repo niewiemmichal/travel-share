@@ -4,4 +4,4 @@ from .views import UsersViewSet, FriendsViewSet, RoutesViewSet
 router = DefaultRouter()
 router.register(r'users', UsersViewSet, basename='users')
 router.register(r'friends', FriendsViewSet, basename='friends')
-router.register('routes', RoutesViewSet)
+router.register('routes', RoutesViewSet, basename='routes')
