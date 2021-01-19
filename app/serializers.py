@@ -5,7 +5,7 @@ from .models import User, Route, RouteParticipant, Landmark
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'name', 'surname', 'email')
+        fields = ('id', 'first_name', 'last_name', 'email')
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -13,42 +13,22 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'name', 'surname', 'email', 'friends')
-
-
-class UserWriterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'name', 'surname', 'email', 'password')
-
-    def create(self, validated_data):
-        return User.objects.create(**validated_data)
-
-    def update(self, instance, validated_data):
-        instance.name = validated_data.get('name', instance.name)
-        instance.surname = validated_data.get('surname', instance.surname)
-        instance.email = validated_data.get('email', instance.email)
-        instance.password = validated_data.get('password', instance.password)
-        instance.save()
-        return instance
-
-      
-class PasswordSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'email', 'password')
+        fields = ('id', 'first_name', 'last_name', 'email', 'friends')
 
         
 class ParticipantReaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('name', 'surname', 'email')
+        fields = ('first_name', 'last_name', 'email')
 
         
 class ParticipantWriterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email',)
+        extra_kwargs = {
+            'email': {'validators': []},
+        }
 
         
 class RouteParticipantWriterSerializer(serializers.ModelSerializer):
