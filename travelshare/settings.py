@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'rest_auth.registration',
-    'users'
+    'users',
+    'rest_framework_swagger',
 ]
 
 MIDDLEWARE = [
@@ -160,6 +161,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
