@@ -66,7 +66,10 @@ class RouteWriterSerializer(serializers.ModelSerializer):
         users = []
         for participant_data in participants_data:
             try:
-                users.append(User.objects.get(email=participant_data.get('participant').get('email')))
+                users.append({
+                    "user": User.objects.get(email=participant_data.get('participant').get('email')),
+                    "price": participant_data.get('price')
+                })
             except Exception as e:
                 error = {'message': ",".join(e.args) if len(e.args) > 0 else 'Unknown Error'}
                 raise serializers.ValidationError(error)
@@ -77,8 +80,8 @@ class RouteWriterSerializer(serializers.ModelSerializer):
         for user in users:
             RouteParticipant.objects.create(
                 route=route,
-                participant=user,
-                price=participant_data.get('price'))
+                participant=user.get("user"),
+                price=user.get('price'))
         return route
 
 

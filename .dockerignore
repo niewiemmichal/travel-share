@@ -1,0 +1,9 @@
+# Ignore everything
+**
+
+# Allow files and directories
+!app
+!travelshare
+!users
+!manage.py
+!requirements.txt
