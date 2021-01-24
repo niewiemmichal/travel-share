@@ -58,7 +58,7 @@ class FriendsViewSet(viewsets.ViewSet):
         except User.DoesNotExist:
             return Response('User not found', status=status.HTTP_404_NOT_FOUND)
         if new_friend == user:
-            return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
+            return Response("Can't add yourself to friends list", status=status.HTTP_400_BAD_REQUEST)
         else:
             friends = user.friends.filter(email=data["email"])
             if friends:
