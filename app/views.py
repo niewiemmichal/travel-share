@@ -53,10 +53,20 @@ class FriendsViewSet(viewsets.ViewSet):
         except User.DoesNotExist:
             return Response('User not found', status=status.HTTP_404_NOT_FOUND)
         data = self.request.data
-        new_friends = get_object_or_404(User.objects.all(), email=data["email"])
-        user.friends.add(new_friends)
-        serializer = UserSerializer(new_friends)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            new_friend = User.objects.get(email=data["email"])
+        except User.DoesNotExist:
+            return Response('User not found', status=status.HTTP_404_NOT_FOUND)
+        if new_friend == user:
+            return Response("Can't add yourself to friends list", status=status.HTTP_400_BAD_REQUEST)
+        else:
+            friends = user.friends.filter(email=data["email"])
+            if friends:
+                return Response("Already exists", status=status.HTTP_400_BAD_REQUEST)
+            else:
+                user.friends.add(new_friend)
+                serializer = UserSerializer(new_friend)
+                return Response(serializer.data, status=status.HTTP_200_OK)
 
     def partial_update(self, request, pk=None):
         try:
