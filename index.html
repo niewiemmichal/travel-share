@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="None">
+  
+  
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <title>Travel Share</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Home";
+    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="js/jquery-2.1.1.min.js" defer></script>
+  <script src="js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href="." class="icon icon-home"> Travel Share</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#deployment-services">Deployment services</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#creating-required-infrastructure">Creating required infrastructure</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#authorizing-to-kubernetes-cluster">Authorizing to Kubernetes cluster</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#deploying-cert-manager-and-istio">Deploying cert-manager and Istio</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#deploying-travelshare-services">Deploying travelshare services</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="about/">About</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="userguide/">User Guide</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href=".">Travel Share</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Home</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="welcome-to-travelshare">Welcome to TravelShare</h1>
+<p>For projects' source codes please visit:<br/>
+<a href="https://github.com/niewiemmichal/travel-share">server source</a> <br/>
+<a href="https://github.com/niewiemmichal/travel-share-ui">website source</a></p>
+<h2 id="deployment-services">Deployment services</h2>
+<p>This section is related to deploying travel-share services to Kubernetes cluster running on Google Cloud Platform.</p>
+<h2 id="requirements">Requirements</h2>
+<p>To deploy travel-share services the latest version of below packages is required.</p>
+<ul>
+<li><a href="https://learn.hashicorp.com/tutorials/terraform/install-cli">terraform</a></li>
+<li><a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a></li>
+<li><a href="https://helm.sh/docs/intro/install/">helm</a></li>
+<li><a href="https://cloud.google.com/sdk/gcloud">gcloud</a></li>
+<li><a href="https://istio.io/latest/docs/ops/diagnostic-tools/istioctl/">istioctl</a></li>
+</ul>
+<h2 id="creating-required-infrastructure">Creating required infrastructure</h2>
+<p>Go to the <code>infrastructure</code> directory and run below commands. Fill all required variables.</p>
+<pre><code class="language-bash">terraform init
+terraform apply
+</code></pre>
+<h2 id="authorizing-to-kubernetes-cluster">Authorizing to Kubernetes cluster</h2>
+<p>To get access to created Kubernetes cluster run below commands.</p>
+<pre><code class="language-bash">gcloud init
+gcloud auth application-default login
+gcloud container clusters get-credentials &lt;GCP_PROJECT_ID&gt; --zone us-central1-a
+</code></pre>
+<h2 id="deploying-cert-manager-and-istio">Deploying cert-manager and Istio</h2>
+<p>Go to the <code>kubernetes</code> directory and run below commands.</p>
+<pre><code class="language-bash">kubectl apply -f namespace.yaml
+helm install --namespace cert-manager cert-manager jetstack/cert-manager
+kubectl apply -f cert-manager/namespace.yaml
+kubectl apply -f istio/certificate.yaml
+istioctl install -n istio-system -f istio-operator.yaml --revision 1-8
+kubectl apply -f istio/gateway.yaml
+</code></pre>
+<h2 id="deploying-travelshare-services">Deploying travelshare services</h2>
+<p>Go to the <code>kubernetes</code> directory fill <code>values-*.yaml</code> files properly and create <code>values-backend.secret.yaml</code> file with below content.</p>
+<pre><code class="language-yaml">sql:
+  password: &lt;DB_PASSWORD&gt;
+django:
+  secretKey: &lt;DJANGO_SECRET_KEY&gt;
+</code></pre>
+<p>Then run below commands.</p>
+<pre><code class="language-bash">helm upgrade --install --namespace travel-share -f values-backend.yaml -f values-backend.secret.yaml travel-share ./travel-share
+helm upgrade --install --namespace travel-share -f values-frontend.yaml travel-share-ui ./travel-share-ui
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="about/" class="btn btn-neutral float-right" title="About">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+        <span style="margin-left: 15px"><a href="about/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.1.2
+Build Date UTC : 2021-01-25 20:20:02.959607+00:00
+-->
