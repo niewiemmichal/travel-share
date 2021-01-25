@@ -1,0 +1,6 @@
+site_name: Travel Share
+nav:
+    - Home: index.md
+    - About: about.md
+    - User Guide: userguide.md
+theme: readthedocs
