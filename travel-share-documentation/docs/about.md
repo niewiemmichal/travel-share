@@ -21,8 +21,8 @@ divide them among user and their friends.
 * Helm
 * Istio
 * Git
-* GitHub Workflow
-* Azure
+* GitHub
+* Google Cloud Platform
 * MkDocs
-* Swagger
+* Postman
 * Terraform
